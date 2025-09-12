@@ -1,0 +1,88 @@
+
+:root {
+  --background: 20 33% 98%;
+  --foreground: 240 10% 15%;
+
+  --card: 0 0% 100%;
+  --card-foreground: 240 10% 15%;
+
+  --popover: 0 0% 100%;
+  --popover-foreground: 240 10% 15%;
+
+  /* Primary: Sunday Yellow */
+  --primary: 45 100% 59%;            /* #FFC72C */
+  --primary-light: 45 100% 69%;      /* #FFD75F */
+  --primary-lighter: 45 100% 82%;    /* #FFEBA6 */
+  --primary-dark: 45 100% 45%;       /* #E6B000 */
+  --primary-foreground: 0 0% 100%;
+
+  --secondary: 250 100% 94%;
+  --secondary-foreground: 240 10% 20%;
+
+  --muted: 20 20% 96%;
+  --muted-foreground: 240 5% 45%;
+
+  --accent: 340 20% 92%;
+  --accent-foreground: 240 10% 15%;
+
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
+
+  --border: 20 15% 90%;
+  --input: 20 15% 90%;
+  --ring: 45 100% 59%;            /* #FFC72C */
+
+  --radius: 0.8rem;
+
+  --sidebar-background: 0 0% 100%;
+  --sidebar-foreground: 240 10% 20%;
+  --sidebar-primary: 45 100% 59%;            /* #FFC72C */
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 250 100% 94%;
+  --sidebar-accent-foreground: 240 10% 20%;
+  --sidebar-border: 20 15% 90%;
+  --sidebar-ring: 45 100% 59%;            /* #FFC72C */
+}
+
+.dark {
+  --background: 240 10% 10%;
+  --foreground: 20 15% 95%;
+
+  --card: 240 10% 15%;
+  --card-foreground: 20 15% 95%;
+
+  --popover: 240 10% 15%;
+  --popover-foreground: 20 15% 95%;
+
+  /* Primary: Sunday Yellow (slightly adjusted for dark mode) */
+  --primary: 45 95% 55%;              /* #EBBA29 - darker for accessibility */
+  --primary-light: 45 90% 65%;        /* #F0CC54 */
+  --primary-lighter: 45 85% 75%;      /* #F5DD87 */
+  --primary-dark: 45 100% 45%;        /* #E6B000 */
+  --primary-foreground: 0 0% 100%;
+
+  --secondary: 250 70% 25%;
+  --secondary-foreground: 20 15% 95%;
+
+  --muted: 240 5% 20%;
+  --muted-foreground: 20 10% 75%;
+
+  --accent: 340 20% 25%;
+  --accent-foreground: 20 15% 95%;
+
+  --destructive: 0 62.8% 50.6%;
+  --destructive-foreground: 210 40% 98%;
+
+  --border: 240 5% 25%;
+  --input: 240 5% 25%;
+  --ring: 45 95% 55%;              /* #EBBA29 */
+
+  --sidebar-background: 240 10% 15%;
+  --sidebar-foreground: 20 15% 95%;
+  --sidebar-primary: 45 95% 55%;              /* #EBBA29 */
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 250 70% 25%;
+  --sidebar-accent-foreground: 20 15% 95%;
+  --sidebar-border: 240 5% 25%;
+  --sidebar-ring: 45 95% 55%;              /* #EBBA29 */
+}

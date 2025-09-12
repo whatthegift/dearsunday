@@ -1,0 +1,8 @@
+
+project_id = "xsoblfpvylpphozzbyzv"
+
+[auth.email]
+enable_confirmations = false
+
+[functions.sunday-chat]
+verify_jwt = true

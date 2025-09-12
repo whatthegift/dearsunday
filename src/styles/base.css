@@ -1,0 +1,86 @@
+@tailwind base;
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-poppins antialiased touch-manipulation;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-poppins font-semibold tracking-tight;
+  }
+
+  h1 {
+    @apply text-base leading-tight font-semibold;
+  }
+
+  h2 {
+    @apply text-[1.1rem] leading-tight;
+  }
+
+  h3 {
+    @apply text-[1rem];
+  }
+
+  h4 {
+    @apply text-[0.95rem];
+  }
+
+  .text-3xl {
+    @apply text-[1.1rem] leading-tight sm:text-[1.2rem];
+  }
+
+  /* Make links stand out with Sunday's yellow */
+  a:not(.button, [role="button"]) {
+    @apply text-gift-yellow-dark hover:text-gift-yellow transition-colors duration-200 underline-offset-4 hover:underline;
+  }
+
+  /* Button text styling */
+  button, .button, [role="button"] {
+    @apply font-poppins font-medium;
+  }
+
+  /* Form inputs */
+  input, select, textarea {
+    @apply font-nunito text-base leading-relaxed;
+    @apply min-h-[44px];
+  }
+
+  @supports (-webkit-touch-callout: none) {
+    input, select, textarea {
+      font-size: 16px;
+    }
+  }
+
+  /* Micro text for timestamps, labels, etc. */
+  .text-micro {
+    @apply text-xs font-nunito text-muted-foreground;
+  }
+
+  /* Pull quotes styling */
+  blockquote {
+    @apply pl-4 border-l-4 border-gift-yellow italic my-4;
+  }
+
+  /* List styling */
+  ul:not(.unstyled) {
+    @apply list-disc pl-5 space-y-1;
+  }
+
+  ol:not(.unstyled) {
+    @apply list-decimal pl-5 space-y-1;
+  }
+
+  /* Form error message formatting */
+  .error-message {
+    @apply text-status-error text-sm mt-1;
+  }
+
+  /* Success message formatting */
+  .success-message {
+    @apply text-status-success text-sm mt-1;
+  }
+}
