@@ -71,20 +71,22 @@ export default function WishlistsPage() {
         if (item.tags && Array.isArray(item.tags)) {
           if (item.tags.includes("High Priority")) priorityValue = "High";else if (item.tags.includes("Low Priority")) priorityValue = "Low";
         }
-        return {
-          id: item.id,
-          title: item.name,
-          price: item.price ? `$${item.price}` : "Price unknown",
-          image: item.photos && Array.isArray(item.photos) && item.photos.length > 0 ? item.photos[0] : "/placeholder.svg",
-          reason: item.description || "",
-          recipient: item.relationships?.name || "Unknown",
-          occasion: item.custom_occasion || item.occasion || "Just Because",
-          status: item.status === "idea" || item.status === "purchased" || item.status === "given" ? item.status : "idea",
-          dateAdded: new Date(item.date_added).toLocaleDateString(),
-          category: item.category || "Misc",
-          priority: priorityValue,
-          notes: ""
-        };
+const rel: any = item.relationships;
+const recipientName = Array.isArray(rel) ? rel[0]?.name : rel?.name;
+return {
+  id: item.id,
+  title: item.name,
+  price: item.price ? `$${item.price}` : "Price unknown",
+  image: item.photos && Array.isArray(item.photos) && item.photos.length > 0 ? item.photos[0] : "/placeholder.svg",
+  reason: item.description || "",
+  recipient: recipientName || "Unknown",
+  occasion: item.custom_occasion || item.occasion || "Just Because",
+  status: item.status === "idea" || item.status === "purchased" || item.status === "given" ? item.status : "idea",
+  dateAdded: new Date(item.date_added).toLocaleDateString(),
+  category: item.category || "Misc",
+  priority: priorityValue,
+  notes: ""
+};
       });
     }
   });
