@@ -32,7 +32,7 @@ export default function GiftHistoryPage() {
     date: dbGift.date_given || dbGift.date_added,
     price: dbGift.price ? `$${dbGift.price}` : undefined,
     occasion: dbGift.occasion,
-    notes: dbGift.notes,
+    notes: dbGift.description,
     type: dbGift.user_id === user?.id ? "given" : "received"
   })) : [];
   const currentYear = new Date().getFullYear();

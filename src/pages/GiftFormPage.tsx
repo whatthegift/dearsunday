@@ -86,7 +86,7 @@ export default function GiftFormPage() {
       
       await createGift.mutateAsync({
         name: formData.name,
-        notes: formData.description,
+        description: formData.description,
         price: formData.price ? parseFloat(formData.price) : undefined,
         occasion: formData.occasion,
         date_given: formData.date_given.toISOString(),

@@ -95,7 +95,7 @@ export function AddGiftForm({ onSubmit }: AddGiftFormProps) {
         price: priceValue,
         date_given: giftDate.toISOString(),
         occasion: occasion,
-        notes: notes,
+        description: notes,
         relationship_id: selectedPerson,
         recipient_id: selectedPerson // Add recipient_id to match the expected type
       });

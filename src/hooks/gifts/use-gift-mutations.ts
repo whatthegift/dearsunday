@@ -23,7 +23,7 @@ export function useGiftMutations() {
           price: newGift.price,
           date_given: newGift.date_given,
           occasion: newGift.occasion,
-          notes: newGift.notes,
+          description: newGift.description,
           user_id: user.id,
           recipient_id: newGift.recipient_id
         }])
