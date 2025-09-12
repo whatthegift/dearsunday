@@ -5,24 +5,44 @@ export type Relationship = {
   id: string;
   user_id: string;
   name: string;
-  relationship_type: 'family' | 'friend' | 'colleague' | 'acquaintance' | 'partner' | 'other';
-  custom_relationship_type?: string;
-  profile_image?: string;
-  notes?: string;
-  birthday?: any;
-  last_updated: string;
-  date_added: string;
-  status: string;
+  // Allow custom values while keeping common presets
+  relationship_type: 'family' | 'friend' | 'colleague' | 'acquaintance' | 'partner' | 'other' | string;
+  
+  // Supabase columns
+  email?: string | null;
+  phone?: string | null;
+  photo_url?: string | null;
+  birthday?: string | null;
+  notes?: string | null;
+  created_at?: string;
+  updated_at?: string;
+  likes?: string[] | null;
+  dislikes?: string[] | null;
+  personality_traits?: string[] | null;
+
+  // Legacy/compat fields used in UI
+  custom_relationship_type?: string | null;
+  profile_image?: string | null;
+  contact_info?: { email?: string; phone?: string } | null;
+  gift_preferences?: {
+    likes?: string;
+    dislikes?: string;
+    sizes?: string;
+    interests?: string | string[];
+  } | null;
+
+  // Optional extras (not guaranteed in DB)
+  last_updated?: string;
+  date_added?: string;
+  status?: string;
   initials?: string;
-  contact_info?: any;
-  gift_preferences?: any;
 };
 
 export type Anniversary = {
-  id: string;
-  relationship_id: string;
+  id?: string; // optional for local (pre-insert) items
+  relationship_id?: string; // will be set on save
   title: string;
-  description?: string;
-  date: string;
+  description?: string | null;
+  date: string; // ISO date (YYYY-MM-DD)
   recurring?: boolean;
 };

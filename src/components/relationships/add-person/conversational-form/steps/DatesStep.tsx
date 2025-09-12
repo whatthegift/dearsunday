@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { CalendarDays } from "lucide-react";
 import { BaseStepLayout } from "./BaseStepLayout";
 import { ImportantDatesSection } from "../../../dates/ImportantDatesSection";
+import DatesList from "../../../dates/DatesList";
 import { Anniversary } from "@/hooks/use-relationships";
 
 interface DatesStepProps {
@@ -26,12 +27,23 @@ export function DatesStep({
       description="Their birthday? Anniversary? The day you met? Let's save those moments too."
     >
       <div className="space-y-4">
-        {relationshipId && (
+        {relationshipId ? (
           <ImportantDatesSection 
             relationshipId={relationshipId}
             dates={importantDates}
             onDatesChange={() => {}}
           />
+        ) : (
+          <>
+            {importantDates.length > 0 && (
+              <div className="mt-2">
+                <DatesList dates={importantDates} />
+              </div>
+            )}
+            <p className="text-sm text-muted-foreground text-center">
+              You can add dates now — they’ll be saved when you save the person
+            </p>
+          </>
         )}
         
         <Button 
@@ -39,17 +51,10 @@ export function DatesStep({
           onClick={onAddDate} 
           variant="outline" 
           className="w-full flex items-center gap-2"
-          disabled={!relationshipId}
         >
           <CalendarDays className="h-4 w-4" />
           Add a date to remember
         </Button>
-        
-        {!relationshipId && (
-          <p className="text-sm text-muted-foreground text-center">
-            You'll be able to add dates after saving the person
-          </p>
-        )}
       </div>
     </BaseStepLayout>
   );
