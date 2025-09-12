@@ -14,7 +14,258 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      anniversaries: {
+        Row: {
+          created_at: string | null
+          date: string
+          description: string | null
+          id: string
+          recurring: boolean | null
+          relationship_id: string
+          title: string
+        }
+        Insert: {
+          created_at?: string | null
+          date: string
+          description?: string | null
+          id?: string
+          recurring?: boolean | null
+          relationship_id: string
+          title: string
+        }
+        Update: {
+          created_at?: string | null
+          date?: string
+          description?: string | null
+          id?: string
+          recurring?: boolean | null
+          relationship_id?: string
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "anniversaries_relationship_id_fkey"
+            columns: ["relationship_id"]
+            isOneToOne: false
+            referencedRelation: "relationships"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      gift_ideas: {
+        Row: {
+          category: string | null
+          description: string | null
+          estimated_price: Json | null
+          id: string
+          name: string
+          photo_url: string | null
+          save_date: string | null
+          tags: string[] | null
+          url: string | null
+          user_id: string
+        }
+        Insert: {
+          category?: string | null
+          description?: string | null
+          estimated_price?: Json | null
+          id?: string
+          name: string
+          photo_url?: string | null
+          save_date?: string | null
+          tags?: string[] | null
+          url?: string | null
+          user_id: string
+        }
+        Update: {
+          category?: string | null
+          description?: string | null
+          estimated_price?: Json | null
+          id?: string
+          name?: string
+          photo_url?: string | null
+          save_date?: string | null
+          tags?: string[] | null
+          url?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      gifts: {
+        Row: {
+          category: string | null
+          custom_occasion: string | null
+          date_added: string | null
+          date_given: string | null
+          date_purchased: string | null
+          description: string | null
+          id: string
+          name: string
+          occasion: string | null
+          photos: string[] | null
+          price: number | null
+          recipient_id: string
+          status: string | null
+          tags: string[] | null
+          user_id: string
+        }
+        Insert: {
+          category?: string | null
+          custom_occasion?: string | null
+          date_added?: string | null
+          date_given?: string | null
+          date_purchased?: string | null
+          description?: string | null
+          id?: string
+          name: string
+          occasion?: string | null
+          photos?: string[] | null
+          price?: number | null
+          recipient_id: string
+          status?: string | null
+          tags?: string[] | null
+          user_id: string
+        }
+        Update: {
+          category?: string | null
+          custom_occasion?: string | null
+          date_added?: string | null
+          date_given?: string | null
+          date_purchased?: string | null
+          description?: string | null
+          id?: string
+          name?: string
+          occasion?: string | null
+          photos?: string[] | null
+          price?: number | null
+          recipient_id?: string
+          status?: string | null
+          tags?: string[] | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "gifts_recipient_id_fkey"
+            columns: ["recipient_id"]
+            isOneToOne: false
+            referencedRelation: "relationships"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      occasions: {
+        Row: {
+          created_at: string | null
+          date: string
+          description: string | null
+          id: string
+          relationship_id: string | null
+          title: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          date: string
+          description?: string | null
+          id?: string
+          relationship_id?: string | null
+          title: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          date?: string
+          description?: string | null
+          id?: string
+          relationship_id?: string | null
+          title?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "occasions_relationship_id_fkey"
+            columns: ["relationship_id"]
+            isOneToOne: false
+            referencedRelation: "relationships"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string | null
+          display_name: string | null
+          id: string
+          updated_at: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string | null
+          display_name?: string | null
+          id: string
+          updated_at?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string | null
+          display_name?: string | null
+          id?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      relationships: {
+        Row: {
+          birthday: string | null
+          created_at: string | null
+          dislikes: string[] | null
+          email: string | null
+          id: string
+          likes: string[] | null
+          name: string
+          notes: string | null
+          personality_traits: string[] | null
+          phone: string | null
+          photo_url: string | null
+          relationship_type: string | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          birthday?: string | null
+          created_at?: string | null
+          dislikes?: string[] | null
+          email?: string | null
+          id?: string
+          likes?: string[] | null
+          name: string
+          notes?: string | null
+          personality_traits?: string[] | null
+          phone?: string | null
+          photo_url?: string | null
+          relationship_type?: string | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          birthday?: string | null
+          created_at?: string | null
+          dislikes?: string[] | null
+          email?: string | null
+          id?: string
+          likes?: string[] | null
+          name?: string
+          notes?: string | null
+          personality_traits?: string[] | null
+          phone?: string | null
+          photo_url?: string | null
+          relationship_type?: string | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
