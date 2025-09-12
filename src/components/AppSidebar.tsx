@@ -87,7 +87,7 @@ export function AppSidebar() {
   };
   
   return (
-    <Sidebar className={`transition-all duration-300 ${isCollapsed ? 'w-16' : ''}`}>
+    <Sidebar className={`transition-all duration-300 ${isCollapsed ? 'w-12' : ''}`}>
       <SidebarHeader className="p-1 pt-0 pb-0 font-poppins">
         <div 
           className="flex items-center justify-center cursor-pointer" 
