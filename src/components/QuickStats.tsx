@@ -53,7 +53,7 @@ export default function QuickStats() {
       if (givenGiftsError) throw givenGiftsError;
 
       return [{
-        title: "People You Care About",
+        title: "Your People",
         value: relationshipsCount?.toString() || '0',
         icon: Users,
         color: "bg-gift-lavender",
@@ -88,7 +88,7 @@ export default function QuickStats() {
 
   if (error || !stats) {
     const fallbackStats = [{
-      title: "People You Care About",
+      title: "Your People",
       value: "0",
       icon: Users,
       color: "bg-gift-lavender",

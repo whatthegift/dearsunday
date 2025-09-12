@@ -86,7 +86,7 @@ export default function RelationshipsPage({
     <div className="container mx-auto py-8 px-4 max-w-7xl animated-entry">
       <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
         <div>
-          <h1 className="mb-2 text-base font-semibold text-left">People You Care About</h1>
+          <h1 className="mb-2 text-base font-semibold text-left">Your People</h1>
           <p className="text-muted-foreground text-sm font-thin">
             Keep track of important dates and gift ideas for the special people in your life.
           </p>
