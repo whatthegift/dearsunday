@@ -22,7 +22,7 @@ import { Loader2 } from 'lucide-react';
 
 export default function GiftFormPage() {
   const [searchParams] = useSearchParams();
-  const relationshipId = searchParams.get('relationshipId');
+  const relationshipId = searchParams.get('relationshipId') || searchParams.get('recipient');
   const navigate = useNavigate();
   const { toast } = useToast();
   const { getRelationship } = useRelationships();

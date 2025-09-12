@@ -20,34 +20,12 @@ export function GiftingHistory({
 }: GiftingHistoryProps) {
   const navigate = useNavigate();
   const { fetchGiftsByRelationship } = useGifts();
-  const [giftData, setGiftData] = useState(gifts);
-  const [isLoadingData, setIsLoadingData] = useState(isLoading);
-  
-  // Use useEffect to fetch gifts if they weren't provided as props
-  useEffect(() => {
-    if (gifts.length === 0 && !isLoading) {
-      const fetchGifts = async () => {
-        try {
-          const giftsQuery = fetchGiftsByRelationship(relationshipId);
-          setIsLoadingData(giftsQuery.isLoading);
-          
-          if (giftsQuery.data) {
-            setGiftData(giftsQuery.data);
-          }
-        } catch (error) {
-          console.error("Error fetching gifts:", error);
-        }
-      };
-      
-      fetchGifts();
-    } else {
-      setGiftData(gifts);
-      setIsLoadingData(isLoading);
-    }
-  }, [relationshipId, gifts, isLoading, fetchGiftsByRelationship]);
+  const giftsQuery = fetchGiftsByRelationship(relationshipId);
+  const giftData = gifts.length > 0 ? gifts : (giftsQuery.data || []);
+  const isLoadingData = isLoading || giftsQuery.isLoading;
   
   const handleAddGift = () => {
-    navigate(`/gifts/add?recipient=${relationshipId}`);
+    navigate(`/gifts/add?relationshipId=${relationshipId}`);
   };
   
   return (
