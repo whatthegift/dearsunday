@@ -85,12 +85,10 @@ export function usePersonFormSubmit({
               await supabase
                 .from('anniversaries')
                 .update({
-                  type: date.type,
-                  custom_type: date.custom_type,
-                  month: date.month,
-                  day: date.day,
-                  year: date.year,
-                  include_year: date.include_year
+                  title: date.title,
+                  description: date.description,
+                  date: date.date,
+                  recurring: date.recurring
                 })
                 .eq('id', date.id);
             } else {

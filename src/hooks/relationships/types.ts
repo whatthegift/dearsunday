@@ -21,11 +21,8 @@ export type Relationship = {
 export type Anniversary = {
   id: string;
   relationship_id: string;
-  type: string;
-  custom_type?: string;
-  month: number;
-  day: number;
-  year?: number;
-  include_year?: boolean;
-  date_added: string;
+  title: string;
+  description?: string;
+  date: string;
+  recurring?: boolean;
 };

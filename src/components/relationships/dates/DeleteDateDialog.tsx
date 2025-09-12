@@ -66,7 +66,7 @@ export function DeleteDateDialog({
       onOpenChange={onOpenChange}
       onConfirm={confirmDeleteDate}
       title="Delete Important Date"
-      description={`Are you sure you want to delete the ${selectedDate?.custom_type || selectedDate?.type} date? This action cannot be undone.`}
+      description={`Are you sure you want to delete the ${selectedDate?.title} date${selectedDate?.description ? ` (${selectedDate.description})` : ""}? This action cannot be undone.`}
       actionLabel="Delete Date"
       disabled={isDeleting}
     />

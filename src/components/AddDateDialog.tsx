@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -24,21 +23,19 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Checkbox } from "@/components/ui/checkbox";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { CalendarPlus } from "lucide-react";
-import { Anniversary, useRelationships } from "@/hooks/use-relationships";
+import { Anniversary } from "@/hooks/relationships/types";
+import { useAnniversaryMutations } from "@/hooks/relationships/use-anniversary-mutations";
 import { useToast } from "@/hooks/use-toast";
 
 const dateSchema = z.object({
-  type: z.string().min(1, "Type is required"),
-  custom_type: z.string().optional(),
+  title: z.string().min(1, "Title is required"),
+  description: z.string().optional(),
   month: z.coerce.number().min(1).max(12),
   day: z.coerce.number().min(1).max(31),
-  year: z.coerce.number().optional(),
-  include_year: z.boolean().default(true),
+  year: z.coerce.number().min(1900).max(2100),
 });
 
 type DateFormValues = z.infer<typeof dateSchema>;
@@ -49,7 +46,7 @@ interface AddDateDialogProps {
   onOpenChange: (open: boolean) => void;
   editMode?: boolean;
   initialData?: Anniversary;
-  onSuccess?: (date?: Anniversary) => void; // Update type to accept an Anniversary parameter
+  onSuccess?: (date?: Anniversary) => void;
 }
 
 export default function AddDateDialog({
@@ -60,110 +57,60 @@ export default function AddDateDialog({
   initialData,
   onSuccess,
 }: AddDateDialogProps) {
-  const { createAnniversary, updateAnniversary, getRelationshipAnniversaries } = useRelationships();
+  const { createAnniversary, updateAnniversary } = useAnniversaryMutations();
   const { toast } = useToast();
-  const [dateType, setDateType] = useState(initialData?.type || "birthday");
-  const [existingDates, setExistingDates] = useState<Anniversary[]>([]);
-
-  // Fetch existing dates for duplicate checking
-  useEffect(() => {
-    if (open && relationshipId) {
-      const fetchDates = async () => {
-        const { data } = await getRelationshipAnniversaries(relationshipId);
-        if (data) {
-          setExistingDates(data);
-        }
-      };
-      fetchDates();
-    }
-  }, [open, relationshipId, getRelationshipAnniversaries]);
 
   const form = useForm<DateFormValues>({
     resolver: zodResolver(dateSchema),
     defaultValues: editMode && initialData
       ? {
-          type: initialData.type,
-          custom_type: initialData.custom_type,
-          month: initialData.month,
-          day: initialData.day,
-          year: initialData.year,
-          include_year: initialData.include_year ?? true,
+          title: initialData.title,
+          description: initialData.description || "",
+          month: new Date(initialData.date).getMonth() + 1,
+          day: new Date(initialData.date).getDate(),
+          year: new Date(initialData.date).getFullYear(),
         }
       : {
-          type: "birthday",
-          custom_type: "",
+          title: "Birthday",
+          description: "",
           month: new Date().getMonth() + 1,
           day: new Date().getDate(),
           year: new Date().getFullYear(),
-          include_year: true,
         },
   });
 
-  // Check if the date would be a duplicate
-  const isDuplicate = (data: DateFormValues) => {
-    if (editMode && initialData) return false; // Don't check when editing existing date
-    
-    return existingDates.some(date => 
-      date.type === data.type && 
-      date.month === data.month && 
-      date.day === data.day
-    );
-  };
-
   const handleSubmit = async (data: DateFormValues) => {
     try {
-      // Check for duplicates before submitting
-      if (isDuplicate(data)) {
-        toast({
-          title: "Duplicate Date",
-          description: `This person already has a ${data.type} on ${data.month}/${data.day}.`,
-          variant: "destructive",
-        });
-        return;
-      }
-
+      const dateString = `${data.year}-${String(data.month).padStart(2, '0')}-${String(data.day).padStart(2, '0')}`;
+      
       if (editMode && initialData) {
         const updatedDate = await updateAnniversary.mutateAsync({
           id: initialData.id,
-          relationship_id: relationshipId,
-          type: data.type,
-          custom_type: data.type === "other" ? data.custom_type : undefined,
-          month: data.month,
-          day: data.day,
-          year: data.include_year ? data.year : undefined,
-          include_year: data.include_year,
+          title: data.title,
+          description: data.description || null,
+          date: dateString,
+          recurring: true,
         });
 
-        toast({
-          title: "Success",
-          description: "Important date updated successfully.",
-        });
-        
         if (onSuccess) {
           onSuccess(updatedDate);
         }
       } else {
         const newDate = await createAnniversary.mutateAsync({
           relationship_id: relationshipId,
-          type: data.type,
-          custom_type: data.type === "other" ? data.custom_type : undefined,
-          month: data.month,
-          day: data.day,
-          year: data.include_year ? data.year : undefined,
-          include_year: data.include_year,
+          title: data.title,
+          description: data.description || null,
+          date: dateString,
+          recurring: true,
         });
 
-        toast({
-          title: "Success",
-          description: "Important date added successfully.",
-        });
-        
         if (onSuccess) {
           onSuccess(newDate);
         }
       }
 
       onOpenChange(false);
+      form.reset();
     } catch (error: any) {
       toast({
         title: "Error",
@@ -173,8 +120,7 @@ export default function AddDateDialog({
     }
   };
 
-  // Watch the type field to show/hide custom type input
-  const watchType = form.watch("type");
+  const watchTitle = form.watch("title");
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -189,15 +135,12 @@ export default function AddDateDialog({
           <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
             <FormField
               control={form.control}
-              name="type"
+              name="title"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Date Type</FormLabel>
+                  <FormLabel>Date Title</FormLabel>
                   <Select
-                    onValueChange={(value) => {
-                      field.onChange(value);
-                      setDateType(value);
-                    }}
+                    onValueChange={field.onChange}
                     defaultValue={field.value}
                   >
                     <FormControl>
@@ -206,11 +149,12 @@ export default function AddDateDialog({
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="birthday">Birthday</SelectItem>
-                      <SelectItem value="anniversary">Anniversary</SelectItem>
-                      <SelectItem value="wedding">Wedding Anniversary</SelectItem>
-                      <SelectItem value="graduation">Graduation</SelectItem>
-                      <SelectItem value="other">Other</SelectItem>
+                      <SelectItem value="Birthday">Birthday</SelectItem>
+                      <SelectItem value="Anniversary">Anniversary</SelectItem>
+                      <SelectItem value="Wedding Anniversary">Wedding Anniversary</SelectItem>
+                      <SelectItem value="Graduation">Graduation</SelectItem>
+                      <SelectItem value="Work Anniversary">Work Anniversary</SelectItem>
+                      <SelectItem value="Other">Other</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />
@@ -218,13 +162,13 @@ export default function AddDateDialog({
               )}
             />
 
-            {watchType === "other" && (
+            {watchTitle === "Other" && (
               <FormField
                 control={form.control}
-                name="custom_type"
+                name="description"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Custom Type</FormLabel>
+                    <FormLabel>Description</FormLabel>
                     <FormControl>
                       <Input
                         placeholder="E.g., First Day at Work, Adoption Day"
@@ -273,36 +217,13 @@ export default function AddDateDialog({
                   <FormItem>
                     <FormLabel>Year</FormLabel>
                     <FormControl>
-                      <Input
-                        type="number"
-                        {...field}
-                        value={field.value || ""}
-                        disabled={!form.watch("include_year")}
-                      />
+                      <Input type="number" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
             </div>
-
-            <FormField
-              control={form.control}
-              name="include_year"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-start space-x-3 space-y-0">
-                  <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                  <div className="space-y-1 leading-none">
-                    <FormLabel>Include year</FormLabel>
-                  </div>
-                </FormItem>
-              )}
-            />
 
             <DialogFooter>
               <Button type="submit" className="mt-4">

@@ -116,8 +116,8 @@ export default function DatesList({
                 <Card key={date.id} className="overflow-hidden">
                   <CardHeader className="p-4 pb-2 flex flex-row items-center justify-between">
                     <CardTitle className="text-base font-medium">
-                      {date.type}
-                      {date.custom_type ? `: ${date.custom_type}` : ""}
+                      {date.title}
+                      {date.description ? `: ${date.description}` : ""}
                     </CardTitle>
                     {(onEdit || onDelete) && (
                       <DropdownMenu>
@@ -152,13 +152,13 @@ export default function DatesList({
                       <Calendar className="h-4 w-4 mr-2" />
                       <span>
                         {dateFormat === "date"
-                          ? formatAnniversaryDate(date.month, date.day, date.year, date.include_year)
-                          : getDaysUntil(date.month, date.day)}
+                          ? new Date(date.date).toLocaleDateString()
+                          : `${Math.ceil((new Date(date.date).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24))} days`}
                       </span>
                     </div>
-                    {date.include_year && date.year && (
+                    {new Date(date.date).getFullYear() && (
                       <Badge variant="outline" className="mt-2">
-                        {new Date().getFullYear() - date.year} years
+                        {new Date().getFullYear() - new Date(date.date).getFullYear()} years
                       </Badge>
                     )}
                   </CardContent>

@@ -67,14 +67,18 @@ export function useDates() {
     // Process anniversaries
     const anniversaryEvents = anniversaries.map(anniversary => {
       const relationshipName = relationshipMap.get(anniversary.relationship_id) || 'Unknown';
-      let eventDate = new Date(currentYear, anniversary.month - 1, anniversary.day);
+      const anniversaryDate = new Date(anniversary.date);
+      const month = anniversaryDate.getMonth() + 1;
+      const day = anniversaryDate.getDate();
+      
+      let eventDate = new Date(currentYear, month - 1, day);
       
       // If the date has already passed this year, use next year
       if (
-        anniversary.month < currentMonth ||
-        (anniversary.month === currentMonth && anniversary.day < currentDay)
+        month < currentMonth ||
+        (month === currentMonth && day < currentDay)
       ) {
-        eventDate = new Date(currentYear + 1, anniversary.month - 1, anniversary.day);
+        eventDate = new Date(currentYear + 1, month - 1, day);
       }
       
       const daysLeft = Math.ceil((eventDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
@@ -83,8 +87,8 @@ export function useDates() {
         id: anniversary.id,
         personId: anniversary.relationship_id,
         personName: relationshipName,
-        date: `${anniversary.month}/${anniversary.day}/${currentYear}`,
-        eventType: anniversary.custom_type || anniversary.type,
+        date: `${month}/${day}/${currentYear}`,
+        eventType: anniversary.title,
         daysLeft
       };
     });
@@ -92,17 +96,20 @@ export function useDates() {
     // Process birthdays
     const birthdayEvents = relationshipsWithBirthday
       ? relationshipsWithBirthday
-          .filter(r => r.birthday && typeof r.birthday === 'object' && 'month' in r.birthday && 'day' in r.birthday)
+          .filter(r => r.birthday)
           .map(relationship => {
-            const birthday = relationship.birthday as { month: number; day: number };
-            let eventDate = new Date(currentYear, birthday.month - 1, birthday.day);
+            const birthdayDate = new Date(relationship.birthday);
+            const month = birthdayDate.getMonth() + 1;
+            const day = birthdayDate.getDate();
+            
+            let eventDate = new Date(currentYear, month - 1, day);
             
             // If the birthday has already passed this year, use next year
             if (
-              birthday.month < currentMonth ||
-              (birthday.month === currentMonth && birthday.day < currentDay)
+              month < currentMonth ||
+              (month === currentMonth && day < currentDay)
             ) {
-              eventDate = new Date(currentYear + 1, birthday.month - 1, birthday.day);
+              eventDate = new Date(currentYear + 1, month - 1, day);
             }
             
             const daysLeft = Math.ceil((eventDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
@@ -111,7 +118,7 @@ export function useDates() {
               id: `birthday-${relationship.id}`,
               personId: relationship.id,
               personName: relationship.name,
-              date: `${birthday.month}/${birthday.day}/${currentYear}`,
+              date: `${month}/${day}/${currentYear}`,
               eventType: 'Birthday',
               daysLeft
             };

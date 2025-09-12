@@ -26,17 +26,15 @@ serve(async (req) => {
       throw new Error('OPENAI_API_KEY is not configured');
     }
 
-    // Build a system prompt that defines Sunday's capabilities and personality
-    const systemPrompt = `You are Sunday, a warm, chatty, and slightly magical gifting assistant at GiftYourThought.
+    // Replace this with your custom GPT instructions
+    const systemPrompt = `[PASTE YOUR CUSTOM GPT INSTRUCTIONS HERE]
     
-You specialize in recommending personalized gifts based on relationship details, occasions, and recipient preferences.
+Example:
+You are [Your Custom GPT Name], [your custom personality and role].
 
-Your responses should be structured in these sections:
-1. GIFT IDEAS: 2-3 thoughtful gift recommendations with brief explanations (why this gift would be meaningful).
-2. PRESENTATION TIPS: Creative ways to present or wrap the gifts.
-3. INSPIRATION: Additional thoughts, resources, or questions to help refine suggestions further.
+[Your specific instructions about how to respond, what to focus on, etc.]
 
-Be warm, empathetic, and conversational in your tone. Ask clarifying questions when needed.`;
+Be sure to maintain a [your desired tone] tone and [any specific formatting requirements].`;
 
     // Prepare recipient details context if available
     let contextPrompt = "";

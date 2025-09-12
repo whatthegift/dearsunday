@@ -25,8 +25,7 @@ export function DateCard({ date, dateFormat, onEdit, onDelete }: DateCardProps) 
     <Card className="overflow-hidden hover:shadow-md transition-shadow">
       <CardHeader className="p-4 pb-2 flex flex-row items-center justify-between">
         <CardTitle className="text-base font-medium">
-          {date.type}
-          {date.custom_type ? `: ${date.custom_type}` : ""}
+          {date.title}
         </CardTitle>
         {(onEdit || onDelete) && (
           <DropdownMenu>
@@ -61,14 +60,14 @@ export function DateCard({ date, dateFormat, onEdit, onDelete }: DateCardProps) 
           <Calendar className="h-4 w-4 mr-2" />
           <span>
             {dateFormat === "date"
-              ? formatAnniversaryDate(date.month, date.day, date.year, date.include_year)
-              : getDaysUntil(date.month, date.day)}
+              ? new Date(date.date).toLocaleDateString()
+              : `${Math.ceil((new Date(date.date).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24))} days`}
           </span>
         </div>
-        {date.include_year && date.year && (
-          <Badge variant="outline" className="mt-2">
-            {getYearsText(date.year)}
-          </Badge>
+        {date.description && (
+          <p className="text-sm text-muted-foreground mt-2">
+            {date.description}
+          </p>
         )}
       </CardContent>
     </Card>
