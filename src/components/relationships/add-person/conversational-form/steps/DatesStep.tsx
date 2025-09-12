@@ -39,6 +39,7 @@ export function DatesStep({
           onClick={onAddDate} 
           variant="outline" 
           className="w-full flex items-center gap-2"
+          disabled={!relationshipId}
         >
           <CalendarDays className="h-4 w-4" />
           Add a date to remember
