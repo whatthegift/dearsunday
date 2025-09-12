@@ -105,18 +105,18 @@ export function AppSidebar() {
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>
-            <SidebarMenu className="space-y-2">
+            <SidebarMenu className={isCollapsed ? "space-y-1 list-none" : "space-y-2"}>
               {navItems.map(item => (
-                <SidebarMenuItem key={item.title} className="p-0">
+                <SidebarMenuItem key={item.title} className={isCollapsed ? "p-0 list-none" : "p-0"}>
                   {isCollapsed ? (
                     <TooltipProvider>
                       <Tooltip>
                         <TooltipTrigger asChild>
                           <SidebarMenuButton 
                             onClick={() => navigate(item.path)} 
-                            className="flex items-center justify-center font-poppins w-full h-10"
+                            className="flex items-center justify-center font-poppins w-full h-12 hover:bg-accent rounded-md border-none list-none"
                           >
-                            <span className="text-xl">{item.iconText}</span>
+                            <span className="text-2xl">{item.iconText}</span>
                           </SidebarMenuButton>
                         </TooltipTrigger>
                         <TooltipContent side="right">
@@ -142,18 +142,18 @@ export function AppSidebar() {
       <SidebarFooter>
         <SidebarGroup>
           <SidebarGroupContent>
-            <SidebarMenu className="space-y-2">
+            <SidebarMenu className={isCollapsed ? "space-y-1 list-none" : "space-y-2"}>
               {settingsItems.map(item => (
-                <SidebarMenuItem key={item.title} className="p-0">
+                <SidebarMenuItem key={item.title} className={isCollapsed ? "p-0 list-none" : "p-0"}>
                   {isCollapsed ? (
                     <TooltipProvider>
                       <Tooltip>
                         <TooltipTrigger asChild>
                           <SidebarMenuButton 
                             onClick={item.onClick || (() => navigate(item.path))} 
-                            className="flex items-center justify-center font-poppins w-full h-10"
+                            className="flex items-center justify-center font-poppins w-full h-12 hover:bg-accent rounded-md border-none list-none"
                           >
-                            <span className="text-xl">{item.iconText}</span>
+                            <span className="text-2xl">{item.iconText}</span>
                           </SidebarMenuButton>
                         </TooltipTrigger>
                         <TooltipContent side="right">
