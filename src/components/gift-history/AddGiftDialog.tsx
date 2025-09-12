@@ -5,7 +5,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
 import { AddGiftForm } from "./AddGiftForm";
-import { toast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 interface AddGiftDialogProps {
   onGiftAdded: (gift: Gift) => void;
 }
@@ -13,6 +13,8 @@ export default function AddGiftDialog({
   onGiftAdded
 }: AddGiftDialogProps) {
   const [open, setOpen] = useState(false);
+  const { toast } = useToast();
+  
   const handleSubmit = (data: Partial<Gift>) => {
     // Ensure required fields are present
     if (!data.giftName || !data.recipientName || !data.type) {

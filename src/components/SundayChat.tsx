@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { SendHorizonal, Loader2, ExternalLink } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Link } from "react-router-dom";
 import SundayAvatar from "./SundayAvatar";
 import { useChatMessages } from "@/hooks/useChatMessages";
 import { useAuth } from "@/contexts/AuthContext";
@@ -100,9 +101,9 @@ export default function SundayChat() {
             className="ml-auto h-8 flex items-center text-xs"
             asChild
           >
-            <a href="/chat">
+            <Link to="/chat">
               Full chat <ExternalLink className="ml-1 h-3.5 w-3.5" />
-            </a>
+            </Link>
           </Button>
         </CardTitle>
       </CardHeader>
