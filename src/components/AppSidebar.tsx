@@ -1,7 +1,6 @@
 
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { 
@@ -10,18 +9,19 @@ import {
   SidebarFooter, 
   SidebarGroup, 
   SidebarGroupContent, 
-  SidebarGroupLabel, 
   SidebarHeader, 
   SidebarMenu, 
   SidebarMenuButton, 
-  SidebarMenuItem 
+  SidebarMenuItem,
+  useSidebar 
 } from "@/components/ui/sidebar";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 export function AppSidebar() {
   const navigate = useNavigate();
   const { signOut } = useAuth();
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const { state, toggleSidebar } = useSidebar();
+  const isCollapsed = state === "collapsed";
   
   const navItems = [
     {
@@ -82,12 +82,8 @@ export function AppSidebar() {
     }
   ];
   
-  const toggleCollapse = () => {
-    setIsCollapsed(!isCollapsed);
-  };
-  
   return (
-    <Sidebar className={`transition-all duration-300 ${isCollapsed ? 'w-12' : ''}`}>
+    <Sidebar collapsible="icon" className="transition-all duration-300">
       <SidebarHeader className="p-1 pt-0 pb-0 font-poppins">
         <div 
           className="flex items-center justify-center cursor-pointer" 
@@ -182,7 +178,7 @@ export function AppSidebar() {
         <Button 
           variant="ghost" 
           size="sm" 
-          onClick={toggleCollapse} 
+          onClick={toggleSidebar} 
           className="w-full mt-4 flex justify-center items-center"
         >
           {isCollapsed ? (
