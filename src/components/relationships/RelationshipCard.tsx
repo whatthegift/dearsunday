@@ -39,6 +39,14 @@ export function RelationshipCard({
     if (!person.gift_preferences?.interests) return [];
     return Array.isArray(person.gift_preferences.interests) ? person.gift_preferences.interests : person.gift_preferences.interests.split(',').map((i: string) => i.trim());
   };
+
+  // Format birthday from ISO date string (YYYY-MM-DD) to M/D(/YYYY)
+  const formatBirthday = (birthday?: string | null) => {
+    if (!birthday) return null;
+    const [year, month, day] = birthday.split("-");
+    if (!month || !day) return null;
+    return `${Number(month)}/${Number(day)}${year ? `/${year}` : ''}`;
+  };
   return <Card className="overflow-hidden transition-shadow duration-300 hover:shadow-md">
       <CardContent className="p-0">
         <div className="p-6">
@@ -63,13 +71,12 @@ export function RelationshipCard({
           </div>
           
           <div className="space-y-2 mb-4">
-            {person.birthday && <div className="flex items-center gap-2">
+            {formatBirthday(person.birthday) && (
+              <div className="flex items-center gap-2">
                 <User className="h-4 w-4 text-muted-foreground" />
-                <span className="text-sm">
-                  Birthday: {person.birthday.month}/{person.birthday.day}
-                  {person.birthday.year ? `/${person.birthday.year}` : ''}
-                </span>
-              </div>}
+                <span className="text-sm">Birthday: {formatBirthday(person.birthday)}</span>
+              </div>
+            )}
             
             {person.gift_preferences?.interests && <div className="flex items-center gap-2">
                 <Heart className="h-4 w-4 text-muted-foreground flex-shrink-0" />

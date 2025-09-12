@@ -29,6 +29,14 @@ export function ProfileHeader({
     };
     return emojis[type.toLowerCase()] || '✨';
   };
+
+  // Format birthday from ISO date string (YYYY-MM-DD) to M/D(/YYYY)
+  const formatBirthday = (birthday?: string | null) => {
+    if (!birthday) return null;
+    const [year, month, day] = birthday.split("-");
+    if (!month || !day) return null;
+    return `${Number(month)}/${Number(day)}${year ? `/${year}` : ''}`;
+  };
   return <div className="relative">
       {/* Soft background banner */}
       <div className="absolute inset-0 h-32 rounded-xl bg-gradient-to-r from-gift-cream to-gift-blush opacity-60 -z-10"></div>
@@ -49,10 +57,11 @@ export function ProfileHeader({
               {person.custom_relationship_type || person.relationship_type}
             </Badge>
           </div>
-          {person.birthday && <p className="mt-2 text-muted-foreground">
-              Birthday: {person.birthday.month}/{person.birthday.day}
-              {person.birthday.year ? `/${person.birthday.year}` : ''}
-            </p>}
+          {formatBirthday(person.birthday) && (
+            <p className="mt-2 text-muted-foreground">
+              Birthday: {formatBirthday(person.birthday)}
+            </p>
+          )}
         </div>
       </div>
     </div>;
