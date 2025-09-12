@@ -30,20 +30,13 @@ export function usePersonFormSubmit({
       // Format the data to match the Relationship type
       const formattedData = {
         name: data.name,
-        relationship_type: data.relationship_type,
-        custom_relationship_type: data.relationship_type === 'other' ? data.custom_relationship_type : null,
-        contact_info: {
-          email: data.email,
-          phone: data.phone
-        },
-        notes: data.notes,
-        profile_image: data.profile_image,
-        gift_preferences: {
-          likes: data.gift_preferences?.likes,
-          dislikes: data.gift_preferences?.dislikes,
-          sizes: data.gift_preferences?.sizes,
-          interests: data.gift_preferences?.interests
-        }
+        relationship_type: data.relationship_type === 'other' 
+          ? (data.custom_relationship_type || 'other') 
+          : data.relationship_type,
+        email: data.email || null,
+        phone: data.phone || null,
+        notes: data.notes || null,
+        photo_url: data.profile_image || null,
       };
       
       let relationshipId: string | null = null;
